@@ -17,7 +17,18 @@ public static class Programa
 {
     public static int Main(string[] argumentos)
     {
-        var quantos = argumentos.Length > 0 ? int.Parse(argumentos[0]) : 20_000;
+        // Le o primeiro argumento que for um numero, e ignora o resto. O
+        // `dotnet run` nem sempre entrega so o que vem depois do `--`.
+        var quantos = 20_000;
+
+        foreach (var argumento in argumentos)
+        {
+            if (int.TryParse(argumento, out var lido) && lido > 0)
+            {
+                quantos = lido;
+                break;
+            }
+        }
 
         Console.WriteLine($"{quantos} documentos por corpus, contra o "
             + "System.Text.Json rodando de verdade.");
